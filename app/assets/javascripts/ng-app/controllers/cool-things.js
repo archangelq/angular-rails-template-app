@@ -3,4 +3,5 @@ angular.module("MyApp.controllers").controller("CoolThingsCtrl", function($scope
         {name: "AngularJS", language: "Javascript"},
         {name: "Rails", language: "Ruby"}
     ]
+    $scope.isCollapsed = false;
 })

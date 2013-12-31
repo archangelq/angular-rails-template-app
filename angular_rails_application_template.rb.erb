@@ -10,10 +10,10 @@ route 'root to: "application#index"'
 <%= insert("README.md") %>
 run "rm public/index.html"
 
-#Javascript stuff
-gem "angular-rails-templates"
-gem "github-markdown"
+#Gems
+<%= project_file("lib/project_gems.rb") %>
 
+#Javascript stuff
 <%= insert("app/assets/javascripts/application.js") %>
 <%= insert("app/assets/javascripts/ng-app/router.js") %>
 <%= insert("app/assets/javascripts/ng-app/controllers/cool-things.js") %>

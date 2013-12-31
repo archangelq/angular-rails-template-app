@@ -1,3 +1,4 @@
+<div class="jumbotron">
 <!-- Super simple Angular example code -->
 <h3>The cool things you have installed in your app are:</h3>
 
@@ -6,4 +7,11 @@
 </ul>
 
 <!-- Intro Readme: remove me first -->
-<%= GitHub::Markdown.render_gfm(File.read(Rails.root.join('README.md'))) %>
+  <button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Hide/Show Readme</button>
+  <hr>
+  <div collapse="isCollapsed">
+    <%= GitHub::Markdown.render_gfm(File.read(Rails.root.join('README.md'))) %>
+  </div>
+
+
+</div>

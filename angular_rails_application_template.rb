@@ -43,9 +43,9 @@ eof
 run "rm README.md"
 file "README.md", <<-eof
       # Elvis Sandwich #
-## Rails and AngularJS go together like peanut butter, banana and bacon ##
+## Rails, AngularJS, and Bootstrap go together like peanut butter, banana and bacon ##
 
-Want to get working with Rails and AngularJS quick and easy? Don't want to have to worry
+Want to get working with Rails, AngularJS, and Bootstrap quick and easy? Don't want to have to worry
  about getting your angular app working with the asset pipeline? Here's the place to get started.
 
 If you haven't already, create your new app like so:
@@ -63,8 +63,10 @@ All of the Angular code lives in the `app/assets/javascripts/ng-app` folder.
  of `templates/coolThings.html.erb` file. Start making modifications to it, reload your browser,
  and you should see them show up!
 
-This template also includes the very useful [`ui-router`](https://github.com/angular-ui/ui-router) angular module, as well as the
- [`angular-rails-template`](https://github.com/dmathieu/angular-rails-templates) gem.
+This template also includes the very useful
+[`ui-router`](https://github.com/angular-ui/ui-router) and
+[`ui-bootstrap`](http://angular-ui.github.io/bootstrap/) angular module, as well as the
+[`angular-rails-template`](https://github.com/dmathieu/angular-rails-templates) gem.
 
 In order to load the templates that the gem inlines for you from the ui-router, you'll
  need have the url be `ng-app/templates/<template_filename>`, rather than simply
@@ -81,10 +83,12 @@ such as the ApplicationController and application layout files.
 eof
 run "rm public/index.html"
 
-#Javascript stuff
-gem "angular-rails-templates"
-gem "github-markdown"
+#Gems
+gem 'bootstrap-sass', '~> 3.0.3.0'
+gem 'angular-rails-templates'
+gem 'github-markdown'
 
+#Javascript stuff
 run "rm app/assets/javascripts/application.js"
 file "app/assets/javascripts/application.js", <<-eof
       // This is a manifest file that'll be compiled into application.js, which will include all the files
@@ -102,6 +106,7 @@ file "app/assets/javascripts/application.js", <<-eof
 //= require jquery_ujs
 //= require angular/angular
 //= require angular-ui-router/release/angular-ui-router
+//= require angular-bootstrap/ui-bootstrap
 //= require ng-app/ng-app
 //= require_tree .
 
@@ -130,17 +135,19 @@ file "app/assets/javascripts/ng-app/controllers/cool-things.js", <<-eof
         {name: "AngularJS", language: "Javascript"},
         {name: "Rails", language: "Ruby"}
     ]
+    $scope.isCollapsed = false;
 })
 eof
 run "rm app/assets/javascripts/ng-app/ng-app.js.erb"
 file "app/assets/javascripts/ng-app/ng-app.js.erb", <<-eof
       angular.module("MyApp.services",[])
 angular.module("MyApp.controllers",["MyApp.services"])
-angular.module("MyApp",["ui.router","MyApp.controllers", "<%= Rails.application.config.angular_templates.module_name %>"])
+angular.module("MyApp",["ui.bootstrap","ui.router","MyApp.controllers", "<%= Rails.application.config.angular_templates.module_name %>"])
 eof
 run "rm app/assets/javascripts/ng-app/templates/coolThings.html.erb"
 file "app/assets/javascripts/ng-app/templates/coolThings.html.erb", <<-eof
-      <!-- Super simple Angular example code -->
+      <div class="jumbotron">
+<!-- Super simple Angular example code -->
 <h3>The cool things you have installed in your app are:</h3>
 
 <ul ng-repeat="coolThing in coolThings">
@@ -148,8 +155,14 @@ file "app/assets/javascripts/ng-app/templates/coolThings.html.erb", <<-eof
 </ul>
 
 <!-- Intro Readme: remove me first -->
-<%= GitHub::Markdown.render_gfm(File.read(Rails.root.join('README.md'))) %>
+  <button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Hide/Show Readme</button>
+  <hr>
+  <div collapse="isCollapsed">
+    <%= GitHub::Markdown.render_gfm(File.read(Rails.root.join('README.md'))) %>
+  </div>
 
+
+</div>
 eof
 
 run "rm .bowerrc"
