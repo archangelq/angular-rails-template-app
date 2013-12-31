@@ -133,7 +133,8 @@ file "app/assets/javascripts/ng-app/controllers/cool-things.js", <<-eof
       angular.module("MyApp.controllers").controller("CoolThingsCtrl", function($scope){
     $scope.coolThings = [
         {name: "AngularJS", language: "Javascript"},
-        {name: "Rails", language: "Ruby"}
+        {name: "Rails", language: "Ruby"},
+        {name: "Bootstrap", language: "Less (CSS)"}
     ]
     $scope.isCollapsed = false;
 })
