@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '~>4.0'
 gem 'angular-rails-templates'
+gem 'github-markdown'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

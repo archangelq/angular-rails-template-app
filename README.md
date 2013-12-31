@@ -1,4 +1,10 @@
-# AngularJS + Rails #
-## You got chocolate chips in my silicon chips! ##
+# Elvis Sandwich #
+## Rails and AngularJS go together like peanut butter, banana and bacon ##
 
-This is a simple cloneable Rails application to be used as a template for other
+Want to get working with Rails and AngularJS quick and easy? Don't want to have to worry
+ about getting your angular app working with the asset pipeline? Here's the place to get started.
+
+
+```
+rails new myapp -m TODO
+```

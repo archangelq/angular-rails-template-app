@@ -1,6 +1,3 @@
-
-"TESTING"
-
 application "config.angular_templates.module_name = \"#{app_name}App.templates\""
 application "#Templates module name for rails_angular_templates. Also used in app/assets/javascripts/ng-app/ng-app.js.erb"
 
@@ -45,15 +42,22 @@ end
 eof
 run "rm README.md"
 file "README.md", <<-eof
-      # AngularJS + Rails #
-## You got chocolate chips in my silicon chips! ##
+      # Elvis Sandwich #
+## Rails and AngularJS go together like peanut butter, banana and bacon ##
 
-This is a simple cloneable Rails application to be used as a template for other
+Want to get working with Rails and AngularJS quick and easy? Don't want to have to worry
+ about getting your angular app working with the asset pipeline? Here's the place to get started.
+
+
+```
+rails new myapp -m TODO
+```
 eof
 run "rm public/index.html"
 
 #Javascript stuff
 gem "angular-rails-templates"
+gem "github-markdown"
 
 run "rm app/assets/javascripts/application.js"
 file "app/assets/javascripts/application.js", <<-eof
@@ -108,9 +112,14 @@ file "app/assets/javascripts/ng-app/ng-app.js.erb", <<-eof
 angular.module("MyApp.controllers",["MyApp.services"])
 angular.module("MyApp",["ui.router","MyApp.controllers", "<%= Rails.application.config.angular_templates.module_name %>"])
 eof
-run "rm app/assets/javascripts/ng-app/templates/coolThings.html"
-file "app/assets/javascripts/ng-app/templates/coolThings.html", <<-eof
-      <h3>The cool things you have installed in your app are:</h3>
+run "rm app/assets/javascripts/ng-app/templates/coolThings.html.erb"
+file "app/assets/javascripts/ng-app/templates/coolThings.html.erb", <<-eof
+      <!-- Intro banner: remove me first -->
+<%= GitHub::Markdown.render_gfm(File.read(Rails.root.join('README.md'))) %>
+
+<!-- Super simple Angular example code -->
+<h3>The cool things you have installed in your app are:</h3>
+
 <ul ng-repeat="coolThing in coolThings">
     <li>{{coolThing.name}}, written in {{coolThing.language}}</li>
 </ul>
