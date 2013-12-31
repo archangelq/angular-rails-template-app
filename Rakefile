@@ -11,7 +11,7 @@ module CompileHelpers
   end
 
   def project_file(file)
-    File.read(File.join(File.dirname(__FILE__),file))
+    File.read(File.join(File.dirname(__FILE__),file), :encoding => "UTF-8")
   end
 
   def insert(file)
