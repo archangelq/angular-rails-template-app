@@ -1,0 +1,3 @@
+angular.module("TemplateApp.services",[])
+angular.module("TemplateApp.controllers",["TemplateApp.services"])
+angular.module("TemplateApp",["ui.router","TemplateApp.controllers", "<%= Rails.application.config.angular_templates.module_name %>"])

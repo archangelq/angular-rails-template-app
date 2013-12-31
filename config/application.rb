@@ -58,5 +58,8 @@ module AngularRailsTemplate
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    #Templates module name for rails_angular_templates. Also used in app/assets/javascripts/ng-app/ng-app.js.erb
+    config.angular_templates.module_name = "TemplateApp.templates"
   end
 end
