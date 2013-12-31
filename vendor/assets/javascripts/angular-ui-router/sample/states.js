@@ -39,8 +39,8 @@ angular.module('uiRouterSample')
             // Example of an inline template string. By default, templates
             // will populate the ui-view within the parent state's template.
             // For top level states, like this one, the parent template is
-            // the coolStuff.html file. So this template will be inserted into the
-            // ui-view within coolStuff.html.
+            // the index.html file. So this template will be inserted into the
+            // ui-view within index.html.
             template: '<p class="lead">Welcome to the UI-Router Demo</p>' +
               '<p>Use the menu above to navigate. ' +
               'Pay attention to the <code>$state</code> and <code>$stateParams</code> values below.</p>' +
@@ -64,7 +64,7 @@ angular.module('uiRouterSample')
 
             // Example of loading a template from a file. This is also a top level state,
             // so this template file will be loaded and then inserted into the ui-view
-            // within coolStuff.html.
+            // within index.html.
             templateUrl: 'contacts.html',
 
             // Use `resolve` to resolve any asynchronous controller dependencies
@@ -161,7 +161,7 @@ angular.module('uiRouterSample')
                   }]
               },
 
-              // This one is targeting the ui-view="hint" within the unnamed root, aka coolStuff.html.
+              // This one is targeting the ui-view="hint" within the unnamed root, aka index.html.
               // This shows off how you could populate *any* view within *any* ancestor state.
               'hint@': {
                 template: 'This is contacts.detail populating the "hint" ui-view'

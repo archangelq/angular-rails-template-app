@@ -6221,7 +6221,7 @@ function $LocationProvider(){
          $scope.message = 'Hello World!';
        }
      </file>
-     <file name="coolStuff.html">
+     <file name="index.html">
        <div ng-controller="LogCtrl">
          <p>Reload this page with open console, enter text and hit the log button...</p>
          Message:
@@ -7916,7 +7916,7 @@ function $RouteProvider(){
        to get it working on jsfiddle as well.
 
      <example module="ngView">
-       <file name="coolStuff.html">
+       <file name="index.html">
          <div ng-controller="MainCntl">
            Choose:
            <a href="Book/Moby">Moby</a> |
@@ -8266,7 +8266,7 @@ function $RouteProvider(){
  * @example
  * <pre>
  *  // Given:
- *  // URL: http://server.com/coolStuff.html#/Chapter/1/Section/2?search=moby
+ *  // URL: http://server.com/index.html#/Chapter/1/Section/2?search=moby
  *  // Route: /Chapter/:chapterId/Section/:sectionId
  *  //
  *  // Then
@@ -9909,7 +9909,7 @@ function $HttpProvider() {
      *
      * @example
       <example>
-        <file name="coolStuff.html">
+        <file name="index.html">
           <div ng-controller="FetchCtrl">
             <select ng-model="method">
               <option>GET</option>
@@ -13270,7 +13270,7 @@ var VALID_CLASS = 'ng-valid',
           };
         });
     </file>
-    <file name="coolStuff.html">
+    <file name="index.html">
       <form name="myForm">
        <div contenteditable
             name="myWidget" ng-model="userContent"
@@ -13921,7 +13921,7 @@ function classDirective(name, selector) {
  *
  * @example
    <example>
-     <file name="coolStuff.html">
+     <file name="index.html">
       <input type="button" value="set" ng-click="myVar='my-class'">
       <input type="button" value="clear" ng-click="myVar=''">
       <br>
@@ -13970,7 +13970,7 @@ var ngClassDirective = classDirective('', true);
  *
  * @example
    <example>
-     <file name="coolStuff.html">
+     <file name="index.html">
         <ol ng-init="names=['John', 'Mary', 'Cate', 'Suz']">
           <li ng-repeat="name in names">
            <span ng-class-odd="'odd'" ng-class-even="'even'">
@@ -14017,7 +14017,7 @@ var ngClassOddDirective = classDirective('Odd', 0);
  *
  * @example
    <example>
-     <file name="coolStuff.html">
+     <file name="index.html">
         <ol ng-init="names=['John', 'Mary', 'Cate', 'Suz']">
           <li ng-repeat="name in names">
            <span ng-class-odd="'odd'" ng-class-even="'even'">
@@ -14631,7 +14631,7 @@ var ngSubmitDirective = ngDirective(function(scope, element, attrs) {
  *
  * @example
   <example animations="true">
-    <file name="coolStuff.html">
+    <file name="index.html">
       Click me: <input type="checkbox" ng-model="checked" ng-init="checked=true" /><br/>
       Show when checked:
       <span ng-if="checked" ng-animate="'example'">
@@ -14729,7 +14729,7 @@ var ngIfDirective = ['$animator', function($animator) {
  *
  * @example
   <example animations="true">
-    <file name="coolStuff.html">
+    <file name="index.html">
      <div ng-controller="Ctrl">
        <select ng-model="template" ng-options="t.name for t in templates">
         <option value="">(blank)</option>
@@ -15221,7 +15221,7 @@ var ngPluralizeDirective = ['$locale', '$interpolate', function($locale, $interp
  * This example initializes the scope to a list of names and
  * then uses `ngRepeat` to display every person:
   <example animations="true">
-    <file name="coolStuff.html">
+    <file name="index.html">
       <div ng-init="friends = [
         {name:'John', age:25, gender:'boy'},
         {name:'Jessie', age:30, gender:'girl'},
@@ -15500,7 +15500,7 @@ var ngRepeatDirective = ['$parse', '$animator', function($parse, $animator) {
  *
  * @example
   <example animations="true">
-    <file name="coolStuff.html">
+    <file name="index.html">
       Click me: <input type="checkbox" ng-model="checked"><br/>
       <div>
         Show:
@@ -15609,7 +15609,7 @@ var ngShowDirective = ['$animator', function($animator) {
  *
  * @example
   <example animations="true">
-    <file name="coolStuff.html">
+    <file name="index.html">
       Click me: <input type="checkbox" ng-model="checked"><br/>
       <div>
         Show:
@@ -15706,7 +15706,7 @@ var ngHideDirective = ['$animator', function($animator) {
  *
  * @example
    <example>
-     <file name="coolStuff.html">
+     <file name="index.html">
         <input type="button" value="set" ng-click="myStyle={color:'red'}">
         <input type="button" value="clear" ng-click="myStyle={}">
         <br/>
@@ -15786,7 +15786,7 @@ var ngStyleDirective = ngDirective(function(scope, element, attr) {
  *
  * @example
   <example animations="true">
-    <file name="coolStuff.html">
+    <file name="index.html">
       <div ng-controller="Ctrl">
         <select ng-model="selection" ng-options="item for item in items">
         </select>
@@ -15989,7 +15989,7 @@ var ngTranscludeDirective = ngDirective({
  * @description
  * # Overview
  * `ngView` is a directive that complements the {@link ng.$route $route} service by
- * including the rendered template of the current route into the main layout (`coolStuff.html`) file.
+ * including the rendered template of the current route into the main layout (`index.html`) file.
  * Every time the current route changes, the included view changes with it according to the
  * configuration of the `$route` service.
  *
@@ -16003,7 +16003,7 @@ var ngTranscludeDirective = ngDirective({
  * @scope
  * @example
     <example module="ngView" animations="true">
-      <file name="coolStuff.html">
+      <file name="index.html">
         <div ng-controller="MainCntl as main">
           Choose:
           <a href="Book/Moby">Moby</a> |

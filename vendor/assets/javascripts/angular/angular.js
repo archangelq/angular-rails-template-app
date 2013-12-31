@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.2.7-build.2029+sha.80e7a45
+ * @license AngularJS v1.2.7-build.2036+sha.e415e91
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -68,7 +68,7 @@ function minErr(module) {
       return match;
     });
 
-    message = message + '\nhttp://errors.angularjs.org/1.2.7-build.2029+sha.80e7a45/' +
+    message = message + '\nhttp://errors.angularjs.org/1.2.7-build.2036+sha.e415e91/' +
       (module ? module + '/' : '') + code;
     for (i = 2; i < arguments.length; i++) {
       message = message + (i == 2 ? '?' : '&') + 'p' + (i-2) + '=' +
@@ -1204,7 +1204,7 @@ function encodeUriQuery(val, pctEncodeSpaces) {
  * `ngApp` is the easiest, and most common, way to bootstrap an application.
  *
  <example module="ngAppDemo">
-   <file name="coolStuff.html">
+   <file name="index.html">
    <div ng-controller="ngAppDemoController">
      I can add: {{a}} + {{b}} =  {{ a+b }}
    </file>
@@ -1831,7 +1831,7 @@ function setupModuleLoader(window) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-  full: '1.2.7-build.2029+sha.80e7a45',    // all of these placeholder strings will be replaced by grunt's
+  full: '1.2.7-build.2036+sha.e415e91',    // all of these placeholder strings will be replaced by grunt's
   major: 1,    // package task
   minor: 2,
   dot: 7,
@@ -3663,6 +3663,11 @@ function createInjector(modulesToLoad) {
           path.unshift(serviceName);
           cache[serviceName] = INSTANTIATING;
           return cache[serviceName] = factory(serviceName);
+        } catch (err) {
+          if (cache[serviceName] === INSTANTIATING) {
+            delete cache[serviceName];
+          }
+          throw err;
         } finally {
           path.shift();
         }
@@ -3739,7 +3744,7 @@ function createInjector(modulesToLoad) {
  * 
  * @example
    <example>
-     <file name="coolStuff.html">
+     <file name="index.html">
        <div id="scrollArea" ng-controller="ScrollCtrl">
          <a ng-click="gotoBottom()">Go to bottom</a>
          <a id="bottom"></a> You're at the bottom!
@@ -4197,8 +4202,9 @@ function Browser(window, document, $log, $sniffer) {
    * @param {boolean=} replace Should new url replace current history record ?
    */
   self.url = function(url, replace) {
-    // Android Browser BFCache causes location reference to become stale.
+    // Android Browser BFCache causes location, history reference to become stale.
     if (location !== window.location) location = window.location;
+    if (history !== window.history) history = window.history;
 
     // setter
     if (url) {
@@ -7413,7 +7419,7 @@ function $HttpProvider() {
      *
      * @example
 <example>
-<file name="coolStuff.html">
+<file name="index.html">
   <div ng-controller="FetchCtrl">
     <select ng-model="method">
       <option>GET</option>
@@ -9249,7 +9255,7 @@ function $LocationProvider(){
          $scope.message = 'Hello World!';
        }
      </file>
-     <file name="coolStuff.html">
+     <file name="index.html">
        <div ng-controller="LogCtrl">
          <p>Reload this page with open console, enter text and hit the log button...</p>
          Message:
@@ -12909,7 +12915,7 @@ function $SceDelegateProvider() {
  *
  * @example
 <example module="mySceApp">
-<file name="coolStuff.html">
+<file name="index.html">
   <div ng-controller="myAppController as myCtrl">
     <i ng-bind-html="myCtrl.explicitlyTrustedHtml" id="explicitlyTrustedHtml"></i><br><br>
     <b>User comments</b><br>
@@ -16006,9 +16012,13 @@ function textInputType(scope, element, attr, ctrl, $sniffer, $browser) {
     }
 
     if (ctrl.$viewValue !== value) {
-      scope.$apply(function() {
+      if (scope.$$phase) {
         ctrl.$setViewValue(value);
-      });
+      } else {
+        scope.$apply(function() {
+          ctrl.$setViewValue(value);
+        });
+      }
     }
   };
 
@@ -16517,7 +16527,7 @@ var VALID_CLASS = 'ng-valid',
           };
         });
     </file>
-    <file name="coolStuff.html">
+    <file name="index.html">
       <form name="myForm">
        <div contenteditable
             name="myWidget" ng-model="userContent"
@@ -17195,7 +17205,7 @@ var ngBindTemplateDirective = ['$interpolate', function($interpolate) {
    Try it here: enter text in text box and watch the greeting change.
  
    <example module="ngBindHtmlExample" deps="angular-sanitize.js">
-     <file name="coolStuff.html">
+     <file name="index.html">
        <div ng-controller="ngBindHtmlCtrl">
         <p ng-bind-html="myHTML"></p>
        </div>
@@ -17322,7 +17332,7 @@ function classDirective(name, selector) {
  *
  * @example Example that demonstrates basic bindings via ngClass directive.
    <example>
-     <file name="coolStuff.html">
+     <file name="index.html">
        <p ng-class="{strike: deleted, bold: important, red: error}">Map Syntax Example</p>
        <input type="checkbox" ng-model="deleted"> deleted (apply "strike" class)<br>
        <input type="checkbox" ng-model="important"> important (apply "bold" class)<br>
@@ -17381,7 +17391,7 @@ function classDirective(name, selector) {
    The example below demonstrates how to perform animations using ngClass.
 
    <example animations="true">
-     <file name="coolStuff.html">
+     <file name="index.html">
       <input type="button" value="set" ng-click="myVar='my-class'">
       <input type="button" value="clear" ng-click="myVar=''">
       <br>
@@ -17445,7 +17455,7 @@ var ngClassDirective = classDirective('', true);
  *
  * @example
    <example>
-     <file name="coolStuff.html">
+     <file name="index.html">
         <ol ng-init="names=['John', 'Mary', 'Cate', 'Suz']">
           <li ng-repeat="name in names">
            <span ng-class-odd="'odd'" ng-class-even="'even'">
@@ -17493,7 +17503,7 @@ var ngClassOddDirective = classDirective('Odd', 0);
  *
  * @example
    <example>
-     <file name="coolStuff.html">
+     <file name="index.html">
         <ol ng-init="names=['John', 'Mary', 'Cate', 'Suz']">
           <li ng-repeat="name in names">
            <span ng-class-odd="'odd'" ng-class-even="'even'">
@@ -18267,7 +18277,7 @@ forEach(
  *
  * @example
   <example animations="true">
-    <file name="coolStuff.html">
+    <file name="index.html">
       Click me: <input type="checkbox" ng-model="checked" ng-init="checked=true" /><br/>
       Show when checked:
       <span ng-if="checked" class="animate-if">
@@ -18384,7 +18394,7 @@ var ngIfDirective = ['$animate', function($animate) {
  *
  * @example
   <example animations="true">
-    <file name="coolStuff.html">
+    <file name="index.html">
      <div ng-controller="Ctrl">
        <select ng-model="template" ng-options="t.name for t in templates">
         <option value="">(blank)</option>
@@ -18996,7 +19006,7 @@ var ngPluralizeDirective = ['$locale', '$interpolate', function($locale, $interp
  * This example initializes the scope to a list of names and
  * then uses `ngRepeat` to display every person:
   <example animations="true">
-    <file name="coolStuff.html">
+    <file name="index.html">
       <div ng-init="friends = [
         {name:'John', age:25, gender:'boy'},
         {name:'Jessie', age:30, gender:'girl'},
@@ -19358,7 +19368,7 @@ var ngRepeatDirective = ['$parse', '$animate', function($parse, $animate) {
  *
  * @example
   <example animations="true">
-    <file name="coolStuff.html">
+    <file name="index.html">
       Click me: <input type="checkbox" ng-model="checked"><br/>
       <div>
         Show:
@@ -19507,7 +19517,7 @@ var ngShowDirective = ['$animate', function($animate) {
  *
  * @example
   <example animations="true">
-    <file name="coolStuff.html">
+    <file name="index.html">
       Click me: <input type="checkbox" ng-model="checked"><br/>
       <div>
         Show:
@@ -19586,7 +19596,7 @@ var ngHideDirective = ['$animate', function($animate) {
  *
  * @example
    <example>
-     <file name="coolStuff.html">
+     <file name="index.html">
         <input type="button" value="set" ng-click="myStyle={color:'red'}">
         <input type="button" value="clear" ng-click="myStyle={}">
         <br/>
@@ -19672,7 +19682,7 @@ var ngStyleDirective = ngDirective(function(scope, element, attr) {
  *
  * @example
   <example animations="true">
-    <file name="coolStuff.html">
+    <file name="index.html">
       <div ng-controller="Ctrl">
         <select ng-model="selection" ng-options="item for item in items">
         </select>

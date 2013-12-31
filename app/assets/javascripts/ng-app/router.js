@@ -1,4 +1,4 @@
-angular.module("TemplateApp").config(function($stateProvider, $urlRouterProvider) {
+angular.module("MyApp").config(function($stateProvider, $urlRouterProvider) {
     //
     // For any unmatched url, redirect to /state1
     $urlRouterProvider.otherwise("/");
