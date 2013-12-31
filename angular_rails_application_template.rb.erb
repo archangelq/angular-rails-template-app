@@ -22,11 +22,9 @@ run "rm public/index.html"
 
 #CSS
 <%= insert("app/assets/stylesheets/application.css") %>
-<%= insert("vendor/assets/stylesheets/bootstrap/bootstrap.css") %>
-<%= insert("vendor/assets/stylesheets/bootstrap/bootstrap.min.css") %>
-<%= insert("vendor/assets/stylesheets/bootstrap/bootstrap-theme.css") %>
-<%= insert("vendor/assets/stylesheets/bootstrap/bootstrap-theme.min.css") %>
-
+run "mkdir -p vendor/assets/stylesheets/bootstrap"
+run "curl http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.css -o ./vendor/assets/stylesheets/bootstrap/bootstrap.css"
+run "curl http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.css -o ./vendor/assets/stylesheets/bootstrap/bootstrap-theme.css"
 
 
 
