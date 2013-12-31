@@ -5,6 +5,11 @@
 require File.expand_path('../config/application', __FILE__)
 
 module CompileHelpers
+  def erb(file)
+    b = binding
+    ERB.new(project_file(file)).result(b)
+  end
+
   def project_file(file)
     File.read(File.join(File.dirname(__FILE__),file))
   end
@@ -12,17 +17,18 @@ module CompileHelpers
   def insert(file)
     "run \"rm #{file}\"
 file \"#{file}\", <<-eof
-      #{project_file(file)}
+#{project_file(file)}
 eof"
   end
+
 end
 
 AngularRailsApplicationTemplate::Application.load_tasks
 
 task :compile_template_rb do
   include CompileHelpers
-  b = binding
+
   File.open("angular_rails_application_template.rb", "w+") do |f|
-    f.write(ERB.new(project_file("angular_rails_application_template.rb.erb")).result(b))
+    f.write(erb("angular_rails_application_template.rb.erb"))
   end
 end

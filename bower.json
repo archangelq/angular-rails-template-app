@@ -1,21 +1,13 @@
 {
-  "name": "angular_rails_application_template",
-  "version": "0.0.0",
-  "authors": [
-    "Hunter Thomas <archangelq@gmail.com>"
-  ],
-  "dependencies": {
-    "angular": "~1.2.0",
-    "angular-ui-router": "~0.2.7",
-    "angular-bootstrap": "~0.9.0"
-  },
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "vendor/assets/javascripts",
-    "test",
-    "tests"
-  ]
+    "name": "MyApp",
+    "version": "0.0.0",
+    "authors": [
+        ""
+    ],
+    "dependencies": {
+        "angular": "~1.2.0",
+        "angular-ui-router": "~0.2.7",
+        "angular-bootstrap": "~0.9.0"
+    },
+    "private": true
 }
