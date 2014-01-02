@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Elvis Sandwich by archangelq</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Elvis Sandwich</h1>
+        <h2>Rails, AngularJS, and Bootstrap go together like peanut butter, banana and bacon</h2>
+        <a href="https://github.com/archangelq/elvis_sandwich" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p>Want to get working with Rails, AngularJS, and Bootstrap quick and easy? Don't want to have to worry
+ about getting your angular app working with the asset pipeline? Here's the place to get started.</p>
+
+<p>If you haven't already, create your new app like so:</p>
+
+<pre><code>rails new myapp -T -m https://raw.github.com/archangelq/elvis_sandwich/master/angular_rails_application_template.rb
+</code></pre>
+
+<p>Fire up your new app with <code>rails server</code>, go to localhost:3000, and you should be presented with
+ this readme, as well as some simple output from your running AngularJS app, listing the cool stuff
+ you have installed and working!</p>
+
+<p>This template also includes the very useful
+ <a href="https://github.com/angular-ui/ui-router"><code>ui-router</code></a> and
+ <a href="http://angular-ui.github.io/bootstrap/"><code>ui-bootstrap</code></a> angular module, as well as the
+ <a href="https://github.com/dmathieu/angular-rails-templates"><code>angular-rails-template</code></a>  and
+ <a href="https://github.com/FineLinePrototyping/angularjs-rails-resource"><code>angularjs-rails-resource</code></a> gems.</p>
+
+<p>Happy Coding!</p>
+
+<h2>
+<a name="whats-included" class="anchor" href="#whats-included"><span class="octicon octicon-link"></span></a>What's included</h2>
+
+<p>All of the Angular code lives in the <code>app/assets/javascripts/ng-app</code> folder.
+ If you are reading this file from your newly created app, you are reading the output
+ of <code>templates/coolThings.html.erb</code> file. Start making modifications to it, reload your browser,
+ and you should see them show up!</p>
+
+<p>Also included are <code>controllers/cool-things.js</code> and <code>services/cool-things.js</code>. 
+ These load the list of cool things from the Rails server, from the
+ ApplicationController#cool_things method, at route /cool-things, demonstrating
+ bare bones usage of the <code>angularjs-rails-resource</code> gem.</p>
+
+<h2>
+<a name="testing" class="anchor" href="#testing"><span class="octicon octicon-link"></span></a>Testing</h2>
+
+<p><a href="http://rspec.info/">RSpec</a> and <a href="http://cukes.info/">Cucumber</a>
+ are included for Rails testing. No default tests are set up. In future
+ the ApplicationController#cool_things method may be unit and integration tested.</p>
+
+<p><a href="http://karma-runner.github.io/0.10/index.html">Karma</a> and
+ <a href="http://pivotal.github.io/jasmine/">Jasmine</a> are included for Angular testing.
+ Because of the complexity of
+ setting this up correctly, two basic spec files are included in the <code>spec/javascripts</code> directory.
+ These unit test the controller and service above. You can run them with <code>rake test:karma</code> to
+ start the karma server and file watcher running, or <code>rake test:karma:once</code> to see the results
+ of a single test run. My thanks to the author of
+ <a href="https://github.com/monterail/rails-angular-karma-example"><code>rails-angular-karma-example</code></a>
+ for a great starting place to create the rake task that I've included along with this to make
+ firing up and tearing down the Karma server easy.</p>
+
+<h2>
+<a name="a-note-on-referencing-templates" class="anchor" href="#a-note-on-referencing-templates"><span class="octicon octicon-link"></span></a>A note on referencing templates</h2>
+
+<p>In order to load the templates that the <code>angular-rails-template</code> gem inlines for you 
+ from the ui-router, you'll
+ need have the url be <code>ng-app/templates/&lt;template_filename&gt;</code>, rather than simply
+ <code>&lt;template_filename&gt;</code>, due to the way that Rails' Asset Pipeline works. Note that this
+ allows you to add .erb on to the end of files, and have it be processed by ERB before
+ being streamlined into the templateCache, as well as any of the other things you can do with
+ the Rails asset pipeline, including using Coffeescript, Haml, etc.</p>
+
+<h3>
+<a name="caveats" class="anchor" href="#caveats"><span class="octicon octicon-link"></span></a>Caveats</h3>
+
+<p>This template assumes you are starting a new app. It removes certain conflicting files,
+ such as the ApplicationController and application layout files.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/archangelq/elvis_sandwich/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/archangelq/elvis_sandwich/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/archangelq/elvis_sandwich"></a> is maintained by <a href="https://github.com/archangelq">archangelq</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
