@@ -1,5 +1,6 @@
 AngularRailsApplicationTemplate::Application.routes.draw do
   root to: "application#index"
+  get "/cool-things", to: "application#cool_things"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

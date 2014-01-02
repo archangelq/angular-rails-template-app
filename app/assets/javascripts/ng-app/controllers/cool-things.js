@@ -1,8 +1,5 @@
-angular.module("MyApp.controllers").controller("CoolThingsCtrl", function($scope){
-    $scope.coolThings = [
-        {name: "AngularJS", language: "Javascript"},
-        {name: "Rails", language: "Ruby"},
-        {name: "Bootstrap", language: "Less (CSS)"}
-    ]
+angular.module("MyApp.controllers").controller("CoolThingsCtrl", function($scope, CoolThings){
+    $scope.coolThings = []
+    CoolThings.query().then(function(coolThings){ $scope.coolThings = coolThings})
     $scope.isCollapsed = false;
 })

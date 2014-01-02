@@ -1,3 +1,3 @@
-angular.module("MyApp.services",[])
+angular.module("MyApp.services",['rails'])
 angular.module("MyApp.controllers",["MyApp.services"])
 angular.module("MyApp",["ui.bootstrap","ui.router","MyApp.controllers", "<%= Rails.application.config.angular_templates.module_name %>"])

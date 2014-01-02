@@ -4,6 +4,7 @@ gem 'rails', '~>4.0'
 gem 'bootstrap-sass', '~> 3.0.3.0'
 gem 'angular-rails-templates'
 gem 'github-markdown'
+gem 'angularjs-rails-resource', '~> 0.2.3'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -11,6 +12,13 @@ gem 'github-markdown'
 gem 'sqlite3'
 
 
+group :development, :test do
+  gem "rspec-rails"
+end
+
+group :test do
+  gem "cucumber-rails", require: false
+end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

@@ -37,6 +37,15 @@ class ApplicationController < ActionController::Base
   def index
   end
 
+  def cool_things
+    respond_to do |format|
+      format.any do
+        render :json => [{name: "AngularJS", language: "Javascript"},
+                         {name: "Rails", language: "Ruby"},
+                         {name: "Bootstrap", language: "Less (CSS)"}]
+      end
+    end
+  end
 end
 
 eof
@@ -87,6 +96,7 @@ run "rm public/index.html"
 gem 'bootstrap-sass', '~> 3.0.3.0'
 gem 'angular-rails-templates'
 gem 'github-markdown'
+gem 'angularjs-rails-resource', '~> 0.2.3'
 
 #Javascript stuff
 run "rm app/assets/javascripts/application.js"
@@ -107,6 +117,7 @@ file "app/assets/javascripts/application.js", <<-eof
 //= require angular/angular
 //= require angular-ui-router/release/angular-ui-router
 //= require angular-bootstrap/ui-bootstrap-tpls
+//= require angularjs/rails/resource
 //= require ng-app/ng-app
 //= require_tree .
 
@@ -130,18 +141,15 @@ angular.module("MyApp").config(function($stateProvider, $urlRouterProvider) {
 eof
 run "rm app/assets/javascripts/ng-app/controllers/cool-things.js"
 file "app/assets/javascripts/ng-app/controllers/cool-things.js", <<-eof
-angular.module("MyApp.controllers").controller("CoolThingsCtrl", function($scope){
-    $scope.coolThings = [
-        {name: "AngularJS", language: "Javascript"},
-        {name: "Rails", language: "Ruby"},
-        {name: "Bootstrap", language: "Less (CSS)"}
-    ]
+angular.module("MyApp.controllers").controller("CoolThingsCtrl", function($scope, CoolThings){
+    $scope.coolThings = []
+    CoolThings.query().then(function(coolThings){ $scope.coolThings = coolThings})
     $scope.isCollapsed = false;
 })
 eof
 run "rm app/assets/javascripts/ng-app/ng-app.js.erb"
 file "app/assets/javascripts/ng-app/ng-app.js.erb", <<-eof
-angular.module("MyApp.services",[])
+angular.module("MyApp.services",['rails'])
 angular.module("MyApp.controllers",["MyApp.services"])
 angular.module("MyApp",["ui.bootstrap","ui.router","MyApp.controllers", "<%= Rails.application.config.angular_templates.module_name %>"])
 eof

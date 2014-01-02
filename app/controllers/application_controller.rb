@@ -3,4 +3,13 @@ class ApplicationController < ActionController::Base
   def index
   end
 
+  def cool_things
+    respond_to do |format|
+      format.any do
+        render :json => [{name: "AngularJS", language: "Javascript"},
+                         {name: "Rails", language: "Ruby"},
+                         {name: "Bootstrap", language: "Less (CSS)"}]
+      end
+    end
+  end
 end
