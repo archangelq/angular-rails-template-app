@@ -21,6 +21,7 @@ generate("cucumber:install")
 <%= insert("app/assets/javascripts/application.js") %>
 <%= insert("app/assets/javascripts/ng-app/router.js") %>
 <%= insert("app/assets/javascripts/ng-app/controllers/cool-things.js") %>
+<%= insert("app/assets/javascripts/ng-app/services/cool-things.js") %>
 <%= insert("app/assets/javascripts/ng-app/ng-app.js.erb") %>
 <%= insert("app/assets/javascripts/ng-app/templates/coolThings.html.erb") %>
 
@@ -31,16 +32,17 @@ run "curl http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.css -o ./
 run "curl http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.css -o ./vendor/assets/stylesheets/bootstrap/bootstrap-theme.css"
 
 #Testing stuff
+<%= insert("lib/karma_config.js.erb") %>
 <%= insert("lib/karma.rb") %>
 <%= insert("lib/karma_unit.rb") %>
 <%= insert("lib/tasks/karma.rake") %>
 <%= insert("spec/javascripts/controllers/coolThingsCtrlSpec.js") %>
 <%= insert("spec/javascripts/services/coolThingsSpec.js") %>
+run 'mkdir -p tmp/test'
 
 #Bower and external JS requirements
 <%= insert("package.json") %>
 <%= insert(".bowerrc") %>
 <%= insert("bower.json") %>
 
-run "npm install"
-run "bower install"
+run "npm install" #Automatically runs bower install

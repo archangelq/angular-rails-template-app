@@ -11,33 +11,9 @@ module Karma
   end
 
   def self.config(opts = {})
-    proxies = "proxies : #{opts[:proxy].to_json}," if opts[:proxy]
-    proxies ||= ""
-
-    config_file = <<-EOC
-          module.exports = function (config) {
-            config.set({
-              basePath : '#{root}',
-
-              frameworks : ["jasmine"],
-
-              files : #{files},
-              exclude : [],
-              autoWatch : #{!opts[:single_run]},
-              browsers : ['Chrome'],
-              singleRun : #{!!opts[:single_run]},
-              reporters : ['progress'],
-              port : 9876,
-              runnerPort : 9100,
-              colors : true,
-              logLevel : config.LOG_INFO,
-              #{proxies}
-              urlRoot : '/__karma__/',
-              captureTimeout : 60000
-            });
-          }
-    EOC
-    config_file
+    opts[:proxies] ||= []
+    b = binding
+    ERB.new(File.read(File.join(root,"lib/karma_config.js.erb"))).result(b)
   end
 
   def self.start!(opts = {})
@@ -56,7 +32,7 @@ module Karma
         f.write config(opts)
       end
 
-      system "karma start #{confjs}"
+      system "karma start " + confjs #Explicitly not using string interp here
     end
   end
 end

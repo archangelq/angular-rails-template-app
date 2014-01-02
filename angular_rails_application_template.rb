@@ -164,6 +164,16 @@ angular.module("MyApp.controllers").controller("CoolThingsCtrl", function($scope
     $scope.isCollapsed = false;
 })
 eof
+run "rm app/assets/javascripts/ng-app/services/cool-things.js"
+file "app/assets/javascripts/ng-app/services/cool-things.js", <<-eof
+angular.module("MyApp.services").factory('CoolThings',
+    function(railsResourceFactory){
+        return railsResourceFactory({
+            url: "/cool-things",
+            name: "coolThings"
+        })
+    })
+eof
 run "rm app/assets/javascripts/ng-app/ng-app.js.erb"
 file "app/assets/javascripts/ng-app/ng-app.js.erb", <<-eof
 angular.module("MyApp.services",['rails'])
@@ -215,6 +225,30 @@ run "curl http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.css -o ./
 run "curl http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.css -o ./vendor/assets/stylesheets/bootstrap/bootstrap-theme.css"
 
 #Testing stuff
+run "rm lib/karma_config.js.erb"
+file "lib/karma_config.js.erb", <<-eof
+module.exports = function (config) {
+    config.set({
+        basePath: '<%= root %>',
+
+        frameworks: ["jasmine"],
+
+        files: <%= files %>,
+        exclude : [],
+        autoWatch : <%= !opts[:single_run] %>,
+        browsers: ['Chrome'],
+        singleRun: <%= !!opts[:single_run] %>,
+        reporters: ['progress'],
+        port: 9876,
+        runnerPort: 9100,
+        colors: true,
+        logLevel: config.LOG_INFO,
+        proxies: <%= opts[:proxies].to_json %>,
+        urlRoot: '/__karma__/',
+        captureTimeout: 60000
+    });
+}
+eof
 run "rm lib/karma.rb"
 file "lib/karma.rb", <<-eof
 module Karma
@@ -230,33 +264,9 @@ module Karma
   end
 
   def self.config(opts = {})
-    proxies = "proxies : #{opts[:proxy].to_json}," if opts[:proxy]
-    proxies ||= ""
-
-    config_file = <<-EOC
-          module.exports = function (config) {
-            config.set({
-              basePath : '#{root}',
-
-              frameworks : ["jasmine"],
-
-              files : #{files},
-              exclude : [],
-              autoWatch : #{!opts[:single_run]},
-              browsers : ['Chrome'],
-              singleRun : #{!!opts[:single_run]},
-              reporters : ['progress'],
-              port : 9876,
-              runnerPort : 9100,
-              colors : true,
-              logLevel : config.LOG_INFO,
-              #{proxies}
-              urlRoot : '/__karma__/',
-              captureTimeout : 60000
-            });
-          }
-    EOC
-    config_file
+    opts[:proxies] ||= []
+    b = binding
+    ERB.new(File.read(File.join(root,"lib/karma_config.js.erb"))).result(b)
   end
 
   def self.start!(opts = {})
@@ -275,7 +285,7 @@ module Karma
         f.write config(opts)
       end
 
-      system "karma start #{confjs}"
+      system "karma start " + confjs #Explicitly not using string interp here
     end
   end
 end
@@ -406,6 +416,7 @@ describe("CoolThings", function(){
 
 })
 eof
+run 'mkdir -p tmp/test'
 
 #Bower and external JS requirements
 run "rm package.json"
@@ -475,5 +486,4 @@ file "bower.json", <<-eof
 }
 eof
 
-run "npm install"
-run "bower install"
+run "npm install" #Automatically runs bower install

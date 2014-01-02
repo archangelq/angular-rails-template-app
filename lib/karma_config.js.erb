@@ -1,0 +1,21 @@
+module.exports = function (config) {
+    config.set({
+        basePath: '<%= root %>',
+
+        frameworks: ["jasmine"],
+
+        files: <%= files %>,
+        exclude : [],
+        autoWatch : <%= !opts[:single_run] %>,
+        browsers: ['Chrome'],
+        singleRun: <%= !!opts[:single_run] %>,
+        reporters: ['progress'],
+        port: 9876,
+        runnerPort: 9100,
+        colors: true,
+        logLevel: config.LOG_INFO,
+        proxies: <%= opts[:proxies].to_json %>,
+        urlRoot: '/__karma__/',
+        captureTimeout: 60000
+    });
+}
