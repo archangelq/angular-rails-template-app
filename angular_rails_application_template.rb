@@ -85,6 +85,8 @@ This template also includes the very useful
  [`angular-rails-template`](https://github.com/dmathieu/angular-rails-templates)  and
  [`angularjs-rails-resource`](https://github.com/FineLinePrototyping/angularjs-rails-resource) gems.
 
+Happy Coding!
+
 ## What's included ##
 
 All of the Angular code lives in the `app/assets/javascripts/ng-app` folder.
@@ -113,8 +115,6 @@ Also included are `controllers/cool-things.js` and `services/cool-things.js`.
  [`rails-angular-karma-example`](https://github.com/monterail/rails-angular-karma-example)
  for a great starting place to create the rake task that I've included along with this to make
  firing up and tearing down the Karma server easy.
-
-Happy Coding!
 
 ## A note on referencing templates ##
 
