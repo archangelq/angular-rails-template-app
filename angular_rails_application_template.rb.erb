@@ -2,6 +2,7 @@ application "config.angular_templates.module_name = \"#{app_name}App.templates\"
 application "#Templates module name for rails_angular_templates. Also used in app/assets/javascripts/ng-app/ng-app.js.erb"
 
 route 'root to: "application#index"'
+route 'get "/cool-things", to: "application#cool_things"'
 
 #Rails includes
 <%= insert("app/views/layouts/application.html.erb") %>
@@ -12,6 +13,9 @@ run "rm public/index.html"
 
 #Gems
 <%= project_file("lib/project_gems.rb") %>
+
+generate("rspec:install")
+generate("cucumber:install")
 
 #Javascript stuff
 <%= insert("app/assets/javascripts/application.js") %>
@@ -26,10 +30,17 @@ run "mkdir -p vendor/assets/stylesheets/bootstrap"
 run "curl http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.css -o ./vendor/assets/stylesheets/bootstrap/bootstrap.css"
 run "curl http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.css -o ./vendor/assets/stylesheets/bootstrap/bootstrap-theme.css"
 
-
+#Testing stuff
+<%= insert("lib/karma.rb") %>
+<%= insert("lib/karma_unit.rb") %>
+<%= insert("lib/tasks/karma.rake") %>
+<%= insert("spec/javascripts/controllers/coolThingsCtrlSpec.js") %>
+<%= insert("spec/javascripts/services/coolThingsSpec.js") %>
 
 #Bower and external JS requirements
+<%= insert("package.json") %>
 <%= insert(".bowerrc") %>
 <%= insert("bower.json") %>
-run "bower install"
 
+run "npm install"
+run "bower install"

@@ -2,6 +2,7 @@ application "config.angular_templates.module_name = \"#{app_name}App.templates\"
 application "#Templates module name for rails_angular_templates. Also used in app/assets/javascripts/ng-app/ng-app.js.erb"
 
 route 'root to: "application#index"'
+route 'get "/cool-things", to: "application#cool_things"'
 
 #Rails includes
 run "rm app/views/layouts/application.html.erb"
@@ -60,7 +61,7 @@ Want to get working with Rails, AngularJS, and Bootstrap quick and easy? Don't w
 If you haven't already, create your new app like so:
 
 ```
-rails new myapp -m https://raw.github.com/archangelq/elvis_sandwich/master/angular_rails_application_template.rb
+rails new myapp -T -m https://raw.github.com/archangelq/elvis_sandwich/master/angular_rails_application_template.rb
 ```
 
 Fire up your new app with `rails server`, go to localhost:3000, and you should be presented with
@@ -97,6 +98,20 @@ gem 'bootstrap-sass', '~> 3.0.3.0'
 gem 'angular-rails-templates'
 gem 'github-markdown'
 gem 'angularjs-rails-resource', '~> 0.2.3'
+
+
+gem_group :development, :test do
+  gem "rspec-rails"
+  gem "pry"
+  gem "pry-nav"
+end
+
+gem_group :test do
+  gem "cucumber-rails", require: false
+end
+
+generate("rspec:install")
+generate("cucumber:install")
 
 #Javascript stuff
 run "rm app/assets/javascripts/application.js"
@@ -199,9 +214,243 @@ run "mkdir -p vendor/assets/stylesheets/bootstrap"
 run "curl http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.css -o ./vendor/assets/stylesheets/bootstrap/bootstrap.css"
 run "curl http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.css -o ./vendor/assets/stylesheets/bootstrap/bootstrap-theme.css"
 
+#Testing stuff
+run "rm lib/karma.rb"
+file "lib/karma.rb", <<-eof
+module Karma
+  def self.files
+    @files ||= [
+        "vendor/assets/javascripts/angular-mocks/angular-mocks.js",
+        "spec/javascripts/**/*.js"
+    ]
+  end
 
+  def self.root()
+    File.join(File.dirname(__FILE__),"..")
+  end
+
+  def self.config(opts = {})
+    proxies = "proxies : #{opts[:proxy].to_json}," if opts[:proxy]
+    proxies ||= ""
+
+    config_file = <<-EOC
+          module.exports = function (config) {
+            config.set({
+              basePath : '#{root}',
+
+              frameworks : ["jasmine"],
+
+              files : #{files},
+              exclude : [],
+              autoWatch : #{!opts[:single_run]},
+              browsers : ['Chrome'],
+              singleRun : #{!!opts[:single_run]},
+              reporters : ['progress'],
+              port : 9876,
+              runnerPort : 9100,
+              colors : true,
+              logLevel : config.LOG_INFO,
+              #{proxies}
+              urlRoot : '/__karma__/',
+              captureTimeout : 60000
+            });
+          }
+    EOC
+    config_file
+  end
+
+  def self.start!(opts = {})
+    Dir.mktmpdir(nil,File.join(root,"tmp/test")) do |dir|
+      confjs = File.join(dir, "karma.conf.js")
+
+      opts[:extra_files].each do |filename,content|
+        fullpath = File.join(dir,filename)
+        File.open(fullpath, "w") do |f|
+          f.write(content)
+        end
+        files.unshift fullpath
+      end
+
+      File.open(confjs, "w") do |f|
+        f.write config(opts)
+      end
+
+      system "karma start #{confjs}"
+    end
+  end
+end
+eof
+run "rm lib/karma_unit.rb"
+file "lib/karma_unit.rb", <<-eof
+require File.join(File.dirname(__FILE__),"karma")
+
+module Karma
+  class Unit
+    def self.test!(opts = {})
+      sprockets = Rails.application.assets
+
+      opts[:extra_files] = {
+          "application.js" => sprockets.find_asset("application.js").to_s
+      }
+
+      Karma.start!(opts)
+    end
+  end
+end
+eof
+run "rm lib/tasks/karma.rake"
+file "lib/tasks/karma.rake", <<-eof
+namespace :test do
+  task :karma => :"karma:run"
+
+  namespace :karma do
+    desc "Run all karma tests"
+
+    task :once => :environment do
+      require Rails.root.join("lib", "karma_unit")
+      puts "--> Running karma unit tests"
+      Karma::Unit.test!(:single_run => true)
+    end
+
+    desc "Run unit tests (test/karma/unit)"
+    task :run => :environment do
+      require Rails.root.join("lib", "karma_unit")
+      Karma::Unit.test!
+    end
+  end
+end
+
+eof
+run "rm spec/javascripts/controllers/coolThingsCtrlSpec.js"
+file "spec/javascripts/controllers/coolThingsCtrlSpec.js", <<-eof
+describe("CoolThingsCtrl", function(){
+    var $scope = null
+    var ctrl = null
+    var q = null
+    var deferred = null
+
+    var coolThingsMock = {
+        query: function(queryString){
+            deferred = q.defer()
+            return deferred.promise
+        },
+        resolve: function(obj){
+            deferred.resolve(data)
+            $scope.$apply()
+        }
+    }
+
+
+    beforeEach(module('MyApp'))
+    beforeEach(inject(function($rootScope, $controller, $q) {
+        //create a scope object for us to use.
+        $scope = $rootScope.$new()
+        q = $q
+
+        //now run that scope through the controller function,
+        //injecting any services or other injectables we need.
+        ctrl = $controller('CoolThingsCtrl', {
+            $scope: $scope,
+            CoolThings: coolThingsMock
+        })
+    }))
+
+    it("should start with an empty array for $scope.coolThings", function(){
+        expect($scope.coolThings).toEqual([])
+    })
+
+    it("should have $scope.coolThings populated when the promise resolves", function(){
+        expect($scope.coolThings).toEqual([])
+        data = [{name: "Testing", language: "jasmine"}]
+        coolThingsMock.resolve(data)
+        expect($scope.coolThings).toEqual(data)
+    })
+
+})
+eof
+run "rm spec/javascripts/services/coolThingsSpec.js"
+file "spec/javascripts/services/coolThingsSpec.js", <<-eof
+describe("CoolThings", function(){
+    var svc = null
+    var http = null
+
+    beforeEach(function(){
+        module("MyApp")
+        inject(function($httpBackend, CoolThings){
+            http = $httpBackend
+            svc = CoolThings
+        })
+    })
+
+    afterEach(function() {
+        http.verifyNoOutstandingExpectation();
+        http.verifyNoOutstandingRequest();
+    });
+
+    it('should have a query function', function () {
+        expect(angular.isFunction(svc.query)).toBe(true);
+    });
+
+    it('should call /cool-things when you query', function(){
+        data = [{name: "mocks", language: "javascript"}]
+        http.expectGET('/cool-things').respond(data)
+
+        svc.query().then(function(svcdata){
+            expect(svcdata.length).toEqual(data.length)
+            expect(svcdata[0].name).toEqual(data[0].name)
+            expect(svcdata[0].language).toEqual(data[0].language)
+        })
+
+        http.flush()
+    })
+
+})
+eof
 
 #Bower and external JS requirements
+run "rm package.json"
+file "package.json", <<-eof
+{
+  "name": "yom-angularjs-testing-article",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matsko/YOM-AngularJS-Testing-Article"
+  },
+  "scripts": {
+    "postinstall": "./node_modules/.bin/bower install"
+  },
+  "homepage": "https://github.com/yearofmoo/YOM-AngularJS-Testing-Article",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-css": "~0.5.4",
+    "grunt-contrib-connect": "~0.1.2",
+    "grunt-contrib-uglify": "~0.2.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-shell": "~0.2.2",
+    "grunt-contrib-copy": "~0.4.1",
+    "karma-mocha": "latest",
+    "karma-chrome-launcher": "~0.1.0",
+    "karma-safari-launcher": "latest",
+    "karma-firefox-launcher": "~0.1.0",
+    "karma-ng-scenario": "latest",
+    "chai": "1.4.0",
+    "karma-script-launcher": "~0.1.0",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "karma-jasmine": "~0.1.3",
+    "karma-requirejs": "~0.1.0",
+    "karma-coffee-preprocessor": "~0.1.0",
+    "karma-phantomjs-launcher": "~0.1.0",
+    "karma": "~0.10.2",
+    "grunt-karma": "~0.6.2",
+    "grunt-open": "~0.2.2",
+    "ng-midway-tester": "2.0.5",
+    "bower": "~1.2.7"
+  }
+}
+
+eof
 run "rm .bowerrc"
 file ".bowerrc", <<-eof
 {
@@ -219,10 +468,12 @@ file "bower.json", <<-eof
     "dependencies": {
         "angular": "~1.2.0",
         "angular-ui-router": "~0.2.7",
-        "angular-bootstrap": "~0.9.0"
+        "angular-bootstrap": "~0.9.0",
+        "angular-mocks": "~1.2.0"
     },
     "private": true
 }
 eof
-run "bower install"
 
+run "npm install"
+run "bower install"
