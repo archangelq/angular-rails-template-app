@@ -14,6 +14,8 @@ gem 'sqlite3'
 
 group :development, :test do
   gem "rspec-rails"
+  gem "pry"
+  gem "pry-nav"
 end
 
 group :test do

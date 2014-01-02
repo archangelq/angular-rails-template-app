@@ -143,7 +143,9 @@ run "rm app/assets/javascripts/ng-app/controllers/cool-things.js"
 file "app/assets/javascripts/ng-app/controllers/cool-things.js", <<-eof
 angular.module("MyApp.controllers").controller("CoolThingsCtrl", function($scope, CoolThings){
     $scope.coolThings = []
-    CoolThings.query().then(function(coolThings){ $scope.coolThings = coolThings})
+    CoolThings.query().then(function(coolThings){
+        $scope.coolThings = coolThings
+    })
     $scope.isCollapsed = false;
 })
 eof
