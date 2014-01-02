@@ -16,8 +16,8 @@ describe("CoolThingsCtrl", function(){
     }
 
 
-    beforeEach(angular.mock.module('MyApp'))
-    beforeEach(angular.mock.inject(function($rootScope, $controller, $q) {
+    beforeEach(module('MyApp'))
+    beforeEach(inject(function($rootScope, $controller, $q) {
         //create a scope object for us to use.
         $scope = $rootScope.$new()
         q = $q
