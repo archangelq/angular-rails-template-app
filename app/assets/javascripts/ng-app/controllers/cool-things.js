@@ -1,7 +1,11 @@
-angular.module("MyApp.controllers").controller("CoolThingsCtrl", function($scope, CoolThings){
-    $scope.coolThings = []
-    CoolThings.query().then(function(coolThings){
-        $scope.coolThings = coolThings
-    })
+angular.module('MyApp.controllers').controller('CoolThingsCtrl', [
+  '$scope',
+  'CoolThings',
+  function ($scope, CoolThings) {
+    $scope.coolThings = [];
+    CoolThings.query().then(function (coolThings) {
+      $scope.coolThings = coolThings;
+    });
     $scope.isCollapsed = false;
-})
+  }
+]);

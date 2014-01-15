@@ -1,7 +1,9 @@
-angular.module("MyApp.services").factory('CoolThings',
-    function(railsResourceFactory){
-        return railsResourceFactory({
-            url: "/cool-things",
-            name: "coolThings"
-        })
-    })
+angular.module('MyApp.services').factory('CoolThings', [
+  'railsResourceFactory',
+  function (railsResourceFactory) {
+    return railsResourceFactory({
+      url: '/cool-things',
+      name: 'coolThings'
+    });
+  }
+]);
