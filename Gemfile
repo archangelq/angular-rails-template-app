@@ -4,7 +4,7 @@ gem 'rails', '~>4.0'
 gem 'bootstrap-sass', '~> 3.0.3.0'
 gem 'angular-rails-templates'
 gem 'github-markdown'
-gem 'angularjs-rails-resource', '~> 0.2.3'
+gem 'angularjs-rails-resource', '~> 2.0.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

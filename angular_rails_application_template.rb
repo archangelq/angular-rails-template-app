@@ -96,7 +96,7 @@ Want to get working with Rails, AngularJS, and Bootstrap quick and easy? Don't w
 If you haven't already, create your new app like so:
 
 ```
-rails new myapp -T -m https://raw.github.com/archangelq/elvis_sandwich/master/angular_rails_application_template.rb
+rails new myapp -T -m https://raw.github.com/scrapcupcake/elvis_sandwich/master/angular_rails_application_template.rb
 ```
 
 Fire up your new app with `rails server`, go to localhost:3000, and you should be presented with
@@ -154,6 +154,7 @@ In order to load the templates that the `angular-rails-template` gem inlines for
 ### Caveats ###
 This template assumes you are starting a new app. It removes certain conflicting files,
  such as the ApplicationController and application layout files.
+
 eof
 run "rm public/index.html"
 
@@ -544,19 +545,22 @@ eof
 run "rm bower.json"
 file "bower.json", <<-eof
 {
-    "name": "MyApp",
-    "version": "0.0.0",
-    "authors": [
-        ""
-    ],
-    "dependencies": {
-        "angular": "~1.2.0",
-        "angular-ui-router": "~0.2.7",
-        "angular-bootstrap": "~0.9.0",
-        "angular-mocks": "~1.2.0"
-    },
-    "private": true
+  "name": "MyApp",
+  "version": "0.0.0",
+  "authors": [
+    ""
+  ],
+  "dependencies": {
+    "angular": "~1.4.0",
+    "angular-ui-router": "~0.2.15",
+    "angular-bootstrap": "~0.13.0",
+    "angular-mocks": "~1.4.0",
+    "angular-ui": "~0.4.0",
+    "jquery": "~2.1.4"
+  },
+  "private": true
 }
+
 eof
 
 run "npm install" #Automatically runs bower install

@@ -1,5 +1,5 @@
 Copyright (c) 2013, Hunter Thomas
-<http://archangelq.net>
+<http://https://github.com/scrapcupcake>
 All rights reserved. This license only applies to modifications to framework code
  that has been modified and additional code that has been added to this project. No claims are made
  to code that is part of the frameworks included in this package, including but not limited to
