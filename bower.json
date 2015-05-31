@@ -1,14 +1,16 @@
 {
-    "name": "MyApp",
-    "version": "0.0.0",
-    "authors": [
-        ""
-    ],
-    "dependencies": {
-        "angular": "~1.2.0",
-        "angular-ui-router": "~0.2.7",
-        "angular-bootstrap": "~0.9.0",
-        "angular-mocks": "~1.2.0"
-    },
-    "private": true
+  "name": "MyApp",
+  "version": "0.0.0",
+  "authors": [
+    ""
+  ],
+  "dependencies": {
+    "angular": "~1.4.0",
+    "angular-ui-router": "~0.2.15",
+    "angular-bootstrap": "~0.13.0",
+    "angular-mocks": "~1.4.0",
+    "angular-ui": "~0.4.0",
+    "jquery": "~2.1.4"
+  },
+  "private": true
 }

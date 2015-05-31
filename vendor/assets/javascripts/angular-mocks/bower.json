@@ -1,8 +1,9 @@
 {
   "name": "angular-mocks",
-  "version": "1.2.7-build.2036+sha.e415e91",
+  "version": "1.4.0",
   "main": "./angular-mocks.js",
+  "ignore": [],
   "dependencies": {
-    "angular": "1.2.7-build.2036+sha.e415e91"
+    "angular": "1.4.0"
   }
 }

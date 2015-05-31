@@ -5,20 +5,41 @@ var formatError = function(error) {
   var message = error.message;
 
   if (stack) {
-    var firstLine = stack.substring(0, stack.indexOf('\n'));
-    if (message && firstLine.indexOf(message) === -1) {
+    if (message && stack.indexOf(message) === -1) {
       stack = message + '\n' + stack;
     }
 
     // remove mocha stack entries
-    return stack.replace(/\n.+\/adapter(\/lib)?\/mocha.js\?\d*\:.+(?=(\n|$))/g, '');
+    return stack.replace(/\n.+\/mocha\/mocha.js\?\w*\:.+(?=(\n|$))/g, '');
   }
 
   return message;
 };
 
+// non-compliant version of Array::reduce.call (requires memo argument)
+var arrayReduce = function(array, reducer, memo) {
+  for (var i = 0, len = array.length; i < len; i++) {
+    memo = reducer(memo, array[i]);
+  }
+  return memo;
+};
 
-var createMochaReporterConstructor = function(tc) {
+var createMochaReporterNode = function() {
+  var mochaRunnerNode = document.createElement('div');
+  mochaRunnerNode.setAttribute('id', 'mocha');
+  document.body.appendChild(mochaRunnerNode);
+};
+
+var haveMochaConfig = function(karma) {
+  return karma.config && karma.config.mocha;
+};
+
+var createMochaReporterConstructor = function(tc, pathname) {
+  // Set custom reporter on debug page
+  if (/debug.html$/.test(pathname) && haveMochaConfig(tc) && tc.config.mocha.reporter) {
+    createMochaReporterNode();
+    return tc.config.mocha.reporter;
+  }
 
   // TODO(vojta): error formatting
   return function(runner) {
@@ -47,7 +68,7 @@ var createMochaReporterConstructor = function(tc) {
     });
 
     runner.on('fail', function(test, error) {
-      if ('hook' === test.type || error.uncaught) {
+      if ('hook' === test.type) {
         test.$errors = [formatError(error)];
         runner.emit('test end', test);
       } else {
@@ -82,16 +103,41 @@ var createMochaReporterConstructor = function(tc) {
 
 var createMochaStartFn = function(mocha) {
   return function(config) {
-    if(config && config.args && config.args.grep){
-      mocha.grep(config.args.grep);
+    var clientArguments;
+    config = config || {};
+    clientArguments = config.args;
+
+    if (clientArguments) {
+      if (Object.prototype.toString.call(clientArguments) === '[object Array]') {
+        arrayReduce(clientArguments, function(isGrepArg, arg) {
+          var match;
+          if (isGrepArg) {
+            mocha.grep(arg);
+          } else if (arg === '--grep') {
+            return true;
+          } else if (match = /--grep=(.*)/.exec(arg)) {
+            mocha.grep(match[1]);
+          }
+          return false;
+        }, false);
+      }
+
+      /**
+       * TODO(maksimrv): remove when karma-grunt plugin will pass
+       * clientArguments how Array
+       */
+      if (clientArguments.grep) {
+        mocha.grep(clientArguments.grep);
+      }
     }
+
     mocha.run();
   };
 };
 
 // Default configuration
 var mochaConfig = {
-  reporter: createMochaReporterConstructor(window.__karma__),
+  reporter: createMochaReporterConstructor(window.__karma__, window.location.pathname),
   ui: 'bdd',
   globals: ['__cov*']
 };
@@ -107,12 +153,13 @@ var createConfigObject = function(karma) {
 
     // except for reporter
     if (key === 'reporter') {
-      return;
+      continue;
     }
 
     // and merge the globals if they exist.
-    if (key === 'globals' && karma.config.mocha[key].concat === 'function') {
-      return mochaConfig.globals.concat(karma.config.mocha[key]);
+    if (key === 'globals') {
+      mochaConfig.globals = mochaConfig.globals.concat(karma.config.mocha[key]);
+      continue;
     }
 
     mochaConfig[key] = karma.config.mocha[key];
