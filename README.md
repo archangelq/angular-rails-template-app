@@ -7,7 +7,7 @@ Want to get working with Rails, AngularJS, and Bootstrap quick and easy? Don't w
 If you haven't already, create your new app like so:
 
 ```
-rails new myapp -T -m https://raw.github.com/archangelq/elvis_sandwich/master/angular_rails_application_template.rb
+rails new myapp -T -m https://raw.github.com/scrapcupcake/elvis_sandwich/master/angular_rails_application_template.rb
 ```
 
 Fire up your new app with `rails server`, go to localhost:3000, and you should be presented with
