@@ -17,7 +17,7 @@ module Karma
   end
 
   def self.start!(opts = {})
-    Dir.mktmpdir(nil,File.join(root,"tmp/test")) do |dir|
+    Dir.mktmpdir("karma") do |dir|
       confjs = File.join(dir, "karma.conf.js")
 
       opts[:extra_files].each do |filename,content|

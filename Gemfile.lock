@@ -40,7 +40,7 @@ GEM
       railties (>= 3.1)
       sprockets (~> 2)
       tilt
-    angularjs-rails-resource (0.2.5)
+    angularjs-rails-resource (2.0.0)
     arel (6.0.0)
     bootstrap-sass (3.0.3.0)
       sass (~> 3.2)
@@ -183,7 +183,7 @@ PLATFORMS
 
 DEPENDENCIES
   angular-rails-templates
-  angularjs-rails-resource (~> 0.2.3)
+  angularjs-rails-resource (~> 2.0.0)
   bootstrap-sass (~> 3.0.3.0)
   coffee-rails
   cucumber-rails
