@@ -41,7 +41,7 @@ Also included are `controllers/cool-things.js` and `services/cool-things.js`.
  the ApplicationController#cool_things method may be unit and integration tested.
 
 [Karma](http://karma-runner.github.io/0.10/index.html) and
- [Jasmine](http://pivotal.github.io/jasmine/) are included for Angular testing.
+ [Jasmine](https://jasmine.github.io/) are included for Angular testing.
  Because of the complexity of
  setting this up correctly, two basic spec files are included in the `spec/javascripts` directory.
  These unit test the controller and service above. You can run them with `rake test:karma` to
